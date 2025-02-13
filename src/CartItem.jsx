@@ -23,23 +23,32 @@ const CartItem = ({ onContinueShopping }) => {
     onContinueShopping(); // Call function passed from parent
   };
   const handleIncrement = (item) => {
-    if (item) {
-      dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
-    }
+    dispatch(updateQuantity({ 
+      name: item.name, 
+      quantity: item.quantity + 1 
+    }));
+
   };
   const handleDecrement = (item) => {
-    if (item && item.quantity > 1) {
-      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
+     if (item.quantity === 1) {
+      dispatch(removeItem(item.name));
     } else {
-      dispatch(removeItem({ id: item.id }));
+      dispatch(updateQuantity({ 
+        name: item.name, 
+        quantity: item.quantity - 1 
+      }));
     }
+
   };
   const handleRemove = (item) => {
-    dispatch(removeItem({ id: item.id }));
+    dispatch(removeItem(item.name));
+
   };
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return item.cost * item.quantity;
+    const tt = (item.cost * item.quantity);
+    //console.log(item.cost , item.quantity);
+    return tt;
   };
 
   return (
@@ -51,7 +60,7 @@ const CartItem = ({ onContinueShopping }) => {
             <img className="cart-item-image" src={item.image} alt={item.name} />
             <div className="cart-item-details">
               <div className="cart-item-name">{item.name}</div>
-              <div className="cart-item-cost">${item.cost}</div>
+              <div className="cart-item-cost">{item.cost}</div>
               <div className="cart-item-quantity">
                 <button className="cart-item-button cart-item-button-dec" onClick={() => handleDecrement(item)}>-</button>
                 <span className="cart-item-quantity-value">{item.quantity}</span>
@@ -74,5 +83,4 @@ const CartItem = ({ onContinueShopping }) => {
 };
 
 export default CartItem;
-
 
