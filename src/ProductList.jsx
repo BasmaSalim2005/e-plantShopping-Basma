@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import addItem from './CartSlice'
@@ -245,17 +246,22 @@ function ProductList() {
    };
 
    const handleContinueShopping = (e) => {
-    e.preventDefault();
     setShowCart(false);
+    setShowPlants(true);
    };
+   
+    const handleAddToCart = (plant) => {
+    dispatch(addItem({ ...plant, quantity: 1 }));
+    setAddedToCart({ ...addedToCart, [plant.name]: true });
+  };
 
-   const handleAddToCart = (product) => {
-     dispatch(addItem({product}));
-     setAddedToCart((prevState) =>({
-        ...prevState,
-        [product.name]:true,
-     }));
-   };
+//    const handleAddToCart = (product) => {
+//      dispatch(addItem({product}));
+//      setAddedToCart((prevState) =>({
+//         ...prevState,
+//         [product.name]:true,
+//      }));
+//    };
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -288,7 +294,7 @@ function ProductList() {
                             <div className="product-title">{plant.name}</div>
                             <div className="product-description">{plant.description}</div>
                             <div className="product-cost">{plant.cost}</div>
-                            <button  className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`} onClick={() => handleAddToCart(plant)}>{addedToCart[plant.name] ? 'Added' : 'Add to Cart'}</button>
+                            <button  className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`} onClick={() => handleAddToCart(plant)} > {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}</button>
                         </div>
                         ))}
                     </div>
