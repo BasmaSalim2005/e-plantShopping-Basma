@@ -16,21 +16,15 @@ const CartItem = ({ onContinueShopping }) => {
     return totalAmount;
   };
 
-  const handleCheckoutShopping = () => {
-    alert('Functionality to be added for future reference');
-  };
-  const handleContinueShopping = () => {
-    onContinueShopping(); // Call function passed from parent
-  };
-  const handleIncrement = (item) => {
+  const handleIncrement = () => {
     dispatch(updateQuantity({ 
       name: item.name, 
       quantity: item.quantity + 1 
     }));
-
   };
-  const handleDecrement = (item) => {
-     if (item.quantity === 1) {
+
+  const handleDecrement = () => {
+    if (item.quantity === 1) {
       dispatch(removeItem(item.name));
     } else {
       dispatch(updateQuantity({ 
@@ -38,18 +32,16 @@ const CartItem = ({ onContinueShopping }) => {
         quantity: item.quantity - 1 
       }));
     }
-
   };
-  const handleRemove = (item) => {
+
+  const handleRemove = () => {
     dispatch(removeItem(item.name));
+  };
 
+  const calculateTotalCost = () => {
+    return (item.cost * item.quantity).toFixed(2);
   };
-  // Calculate total cost based on quantity for an item
-  const calculateTotalCost = (item) => {
-    const tt = (item.cost * item.quantity);
-    //console.log(item.cost , item.quantity);
-    return tt;
-  };
+  
 
   return (
     <div className="cart-container">
